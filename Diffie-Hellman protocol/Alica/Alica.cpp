@@ -7,7 +7,7 @@
 #include <windows.h>
 #include <string>
 #include <random>
-#include <E:\Library\art.cpp>
+
 #include <openssl/bn.h>
 #include <sstream>
 
@@ -34,16 +34,16 @@ string NumberToString(const BIGNUM* num) {
 //------------------------------
 string ReadMsg(int index)
 {
-    // Получаем строку от сервера
+    // ГЏГ®Г«ГіГ·Г ГҐГ¬ Г±ГІГ°Г®ГЄГі Г®ГІ Г±ГҐГ°ГўГҐГ°Г 
     char* buffer = NULL;
     int numBytesReceived = 0;
     int bufferSize = 1024;
 
     do {
-        buffer = (char*)realloc(buffer, bufferSize); // Выделяем динамическую память для буфера
+        buffer = (char*)realloc(buffer, bufferSize); // Г‚Г»Г¤ГҐГ«ГїГҐГ¬ Г¤ГЁГ­Г Г¬ГЁГ·ГҐГ±ГЄГіГѕ ГЇГ Г¬ГїГІГј Г¤Г«Гї ГЎГіГґГҐГ°Г 
         numBytesReceived += recv(connections[index], buffer + numBytesReceived, bufferSize - numBytesReceived, 0);
         if (numBytesReceived == bufferSize) {
-            bufferSize *= 2; // Увеличиваем размер буфера в два раза, если принятые данные заполнили весь буфер
+            bufferSize *= 2; // Г“ГўГҐГ«ГЁГ·ГЁГўГ ГҐГ¬ Г°Г Г§Г¬ГҐГ° ГЎГіГґГҐГ°Г  Гў Г¤ГўГ  Г°Г Г§Г , ГҐГ±Г«ГЁ ГЇГ°ГЁГ­ГїГІГ»ГҐ Г¤Г Г­Г­Г»ГҐ Г§Г ГЇГ®Г«Г­ГЁГ«ГЁ ГўГҐГ±Гј ГЎГіГґГҐГ°
         }
     } while (numBytesReceived == bufferSize);
 
@@ -54,7 +54,6 @@ string ReadMsg(int index)
 //------------------------------
 void connect(int index)
 {
-    ascii_art("Alica");
     KEY key;
    
     BIGNUM* secret_key = key.Secret(16);
@@ -102,22 +101,22 @@ int main(int argc, char* argv[])
 {
     setlocale(LC_ALL, "ru");
 
-    WSAData wsaData; //структура wsaData
-    WORD DLLVersion = MAKEWORD(2, 1);//версия библиотеки
-    if (WSAStartup(DLLVersion, &wsaData) != 0) // загрузка библиотеки
+    WSAData wsaData; //Г±ГІГ°ГіГЄГІГіГ°Г  wsaData
+    WORD DLLVersion = MAKEWORD(2, 1);//ГўГҐГ°Г±ГЁГї ГЎГЁГЎГ«ГЁГ®ГІГҐГЄГЁ
+    if (WSAStartup(DLLVersion, &wsaData) != 0) // Г§Г ГЈГ°ГіГ§ГЄГ  ГЎГЁГЎГ«ГЁГ®ГІГҐГЄГЁ
     {
         cout << "Error" << endl;
         exit(1);
     }
-    SOCKADDR_IN addr; // структура преднозначеная для хранения адреса
+    SOCKADDR_IN addr; // Г±ГІГ°ГіГЄГІГіГ°Г  ГЇГ°ГҐГ¤Г­Г®Г§Г­Г Г·ГҐГ­Г Гї Г¤Г«Гї ГµГ°Г Г­ГҐГ­ГЁГї Г Г¤Г°ГҐГ±Г 
     int sizeofaddr = sizeof(addr);
     addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     addr.sin_port = htons(1024);
     addr.sin_family = AF_INET;
 
     SOCKET slisten = socket(AF_INET, SOCK_STREAM, NULL);
-    //  предвариетльно созданный сокет, указатель на структуру, размер структуры.
-    bind(slisten, (SOCKADDR*)&addr, sizeof(addr)); // привязали адрес к сокету
+    //  ГЇГ°ГҐГ¤ГўГ Г°ГЁГҐГІГ«ГјГ­Г® Г±Г®Г§Г¤Г Г­Г­Г»Г© Г±Г®ГЄГҐГІ, ГіГЄГ Г§Г ГІГҐГ«Гј Г­Г  Г±ГІГ°ГіГЄГІГіГ°Гі, Г°Г Г§Г¬ГҐГ° Г±ГІГ°ГіГЄГІГіГ°Г».
+    bind(slisten, (SOCKADDR*)&addr, sizeof(addr)); // ГЇГ°ГЁГўГїГ§Г Г«ГЁ Г Г¤Г°ГҐГ± ГЄ Г±Г®ГЄГҐГІГі
     listen(slisten, SOMAXCONN);
 
     SOCKET newConn;
