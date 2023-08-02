@@ -6,7 +6,7 @@
 #include <string>
 #include <algorithm>
 #include <cmath>
-#include <E:\Library\art.cpp>
+
 #include <random>
 #include <openssl/bn.h>
 
@@ -32,16 +32,16 @@ string NumberToString(const BIGNUM* num) {
 //------------------------------
 string ReadMsg()
 {
-	// Получаем строку от сервера
+	// ГЏГ®Г«ГіГ·Г ГҐГ¬ Г±ГІГ°Г®ГЄГі Г®ГІ Г±ГҐГ°ГўГҐГ°Г 
 	char* buffer = NULL;
 	int numBytesReceived = 0;
 	int bufferSize = 1024;
 
 	do {
-		buffer = (char*)realloc(buffer, bufferSize); // Выделяем динамическую память для буфера
+		buffer = (char*)realloc(buffer, bufferSize); // Г‚Г»Г¤ГҐГ«ГїГҐГ¬ Г¤ГЁГ­Г Г¬ГЁГ·ГҐГ±ГЄГіГѕ ГЇГ Г¬ГїГІГј Г¤Г«Гї ГЎГіГґГҐГ°Г 
 		numBytesReceived += recv(Conn, buffer + numBytesReceived, bufferSize - numBytesReceived, 0);
 		if (numBytesReceived == bufferSize) {
-			bufferSize *= 2; // Увеличиваем размер буфера в два раза, если принятые данные заполнили весь буфер
+			bufferSize *= 2; // Г“ГўГҐГ«ГЁГ·ГЁГўГ ГҐГ¬ Г°Г Г§Г¬ГҐГ° ГЎГіГґГҐГ°Г  Гў Г¤ГўГ  Г°Г Г§Г , ГҐГ±Г«ГЁ ГЇГ°ГЁГ­ГїГІГ»ГҐ Г¤Г Г­Г­Г»ГҐ Г§Г ГЇГ®Г«Г­ГЁГ«ГЁ ГўГҐГ±Гј ГЎГіГґГҐГ°
 		}
 	} while (numBytesReceived == bufferSize);
 
@@ -51,7 +51,6 @@ string ReadMsg()
 //------------------------------
 void connect()
 {
-	ascii_art("Bob");
 	KEY key;
 	
 	BIGNUM* secret_key = key.Secret(16);
@@ -98,14 +97,14 @@ void connect()
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
-	WSAData wsaData; //структура wsaData
-	WORD DLLVersion = MAKEWORD(2, 1);//версия библиотеки
-	if (WSAStartup(DLLVersion, &wsaData) != 0) // загрузка библиотеки
+	WSAData wsaData; //Г±ГІГ°ГіГЄГІГіГ°Г  wsaData
+	WORD DLLVersion = MAKEWORD(2, 1);//ГўГҐГ°Г±ГЁГї ГЎГЁГЎГ«ГЁГ®ГІГҐГЄГЁ
+	if (WSAStartup(DLLVersion, &wsaData) != 0) // Г§Г ГЈГ°ГіГ§ГЄГ  ГЎГЁГЎГ«ГЁГ®ГІГҐГЄГЁ
 	{
 		cout << "Error WSAData" << endl;
 		exit(1);
 	}
-	SOCKADDR_IN addr; // структура преднозначеная для хранения адреса
+	SOCKADDR_IN addr; // Г±ГІГ°ГіГЄГІГіГ°Г  ГЇГ°ГҐГ¤Г­Г®Г§Г­Г Г·ГҐГ­Г Гї Г¤Г«Гї ГµГ°Г Г­ГҐГ­ГЁГї Г Г¤Г°ГҐГ±Г 
 	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 	addr.sin_port = htons(1024);
 	addr.sin_family = AF_INET;
