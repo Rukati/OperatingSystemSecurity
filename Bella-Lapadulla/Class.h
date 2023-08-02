@@ -8,9 +8,9 @@
 #include <vector>
 #include <unordered_map>
 
-#include <E:\Library\rapidjson-master\include\rapidjson\document.h>
-#include <E:\Library\rapidjson-master\include\rapidjson\writer.h>
-#include <E:\Library\rapidjson-master\include\rapidjson\stringbuffer.h>
+#include <rapidjson\document.h>
+#include <rapidjson\writer.h>
+#include <rapidjson\stringbuffer.h>
 
 using namespace rapidjson;
 
@@ -130,7 +130,7 @@ private:
 public:
 
     Access() {
-        // Инициализация пустого JSON-объекта
+        // Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї ГЇГіГ±ГІГ®ГЈГ® JSON-Г®ГЎГєГҐГЄГІГ 
         db.SetObject();
 
         std::ifstream file("access_mandate.json");
@@ -139,7 +139,7 @@ public:
             file.close();
 
             if (!db.Parse(jsonString.c_str()).HasParseError()) {
-                // Загрузка данных из JSON-объекта
+                // Г‡Г ГЈГ°ГіГ§ГЄГ  Г¤Г Г­Г­Г»Гµ ГЁГ§ JSON-Г®ГЎГєГҐГЄГІГ 
                 if (db.HasMember("matrix") && db["matrix"].IsObject()) {
                     const Value& matrixObj = db["matrix"];
                     for (Value::ConstMemberIterator subjIt = matrixObj.MemberBegin(); subjIt != matrixObj.MemberEnd(); ++subjIt) {
@@ -198,16 +198,16 @@ public:
                     }
                 }
 
-                //std::cout << "\033[1;32mФайл успешно загружен.\033[0m" << std::endl;
+                //std::cout << "\033[1;32mГ”Г Г©Г« ГіГ±ГЇГҐГёГ­Г® Г§Г ГЈГ°ГіГ¦ГҐГ­.\033[0m" << std::endl;
             }
             else {
-                std::cout << BRIGHT_RED_COLOR << "Ошибка при разборе файла JSON." << RESET_COLOR << std::endl;
+                std::cout << BRIGHT_RED_COLOR << "ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ Г°Г Г§ГЎГ®Г°ГҐ ГґГ Г©Г«Г  JSON." << RESET_COLOR << std::endl;
             }
         }
     }
 
     void SaveToFile() {
-        // Заполнение данных в JSON-объекте
+        // Г‡Г ГЇГ®Г«Г­ГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ Гў JSON-Г®ГЎГєГҐГЄГІГҐ
         Value matrixObj(kObjectType);
         for (const auto& subjEntry : access_matrix) {
             const std::string& subj = subjEntry.first;
@@ -257,7 +257,7 @@ public:
         db.AddMember("subjects", subjectsObj.Move(), db.GetAllocator());
         db.AddMember("objects", objectsObj.Move(), db.GetAllocator());
 
-        // Сохранение данных в файл
+        // Г‘Г®ГµГ°Г Г­ГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ Гў ГґГ Г©Г«
         StringBuffer buffer;
         Writer<StringBuffer> writer(buffer);
         db.Accept(writer);
@@ -266,10 +266,10 @@ public:
         if (file.is_open()) {
             file << buffer.GetString();
             file.close();
-            //std::cout << "\033[1;32mДанные успешно сохранены в файл.\033[0m" << std::endl;
+            //std::cout << "\033[1;32mГ„Г Г­Г­Г»ГҐ ГіГ±ГЇГҐГёГ­Г® Г±Г®ГµГ°Г Г­ГҐГ­Г» Гў ГґГ Г©Г«.\033[0m" << std::endl;
         }
         else {
-            std::cout << BRIGHT_RED_COLOR << "Ошибка при сохранении данных в файл." << RESET_COLOR << std::endl;
+            std::cout << BRIGHT_RED_COLOR << "ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ Г±Г®ГµГ°Г Г­ГҐГ­ГЁГЁ Г¤Г Г­Г­Г»Гµ Гў ГґГ Г©Г«." << RESET_COLOR << std::endl;
         }
     }
 
@@ -278,7 +278,7 @@ public:
         Writer<StringBuffer> writer(buffer);
         db.Accept(writer);
 
-        std::cout << "Содержимое:";
+        std::cout << "Г‘Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГҐ:";
         std::cout << buffer.GetString() << std::endl;
     }
 
@@ -294,7 +294,7 @@ public:
     bool ChekSubj(std::string subj)
     {
         if (!db["subjects"].HasMember(subj.c_str())) {
-            std::cout << "\033[1;31m>>> Субъект не существует.\033[0m" << std::endl;
+            std::cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << std::endl;
             return false;
         }
         else
@@ -304,7 +304,7 @@ public:
     bool ChekObj(std::string obj)
     {
         if (!db["objects"].HasMember(obj.c_str())) {
-            std::cout << "\033[1;31m>>> Объект не существует.\033[0m" << std::endl;
+            std::cout << "\033[1;31m>>> ГЋГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << std::endl;
             return false;
         }
         else
