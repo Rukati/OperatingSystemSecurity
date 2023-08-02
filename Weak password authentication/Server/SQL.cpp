@@ -13,26 +13,26 @@ string SQL(char login[256],string query) {
 
 	string ClientLogin; ClientLogin += login;
 
-	// Создаем экземпляр драйвера для работы с MySQL
+	// Г‘Г®Г§Г¤Г ГҐГ¬ ГЅГЄГ§ГҐГ¬ГЇГ«ГїГ° Г¤Г°Г Г©ГўГҐГ°Г  Г¤Г«Гї Г°Г ГЎГ®ГІГ» Г± MySQL
 	sql::Driver* driver;
 	driver = get_driver_instance();
 
-	// Устанавливаем параметры соединения с базой данных
+	// Г“Г±ГІГ Г­Г ГўГ«ГЁГўГ ГҐГ¬ ГЇГ Г°Г Г¬ГҐГІГ°Г» Г±Г®ГҐГ¤ГЁГ­ГҐГ­ГЁГї Г± ГЎГ Г§Г®Г© Г¤Г Г­Г­Г»Гµ
 	sql::Connection* con;
-	con = driver->connect("localhost", "root", "Rukati256++");
+	con = driver->connect("localhost", "root", "password");
 
-	// Выбираем базу данных
+	// Г‚Г»ГЎГЁГ°Г ГҐГ¬ ГЎГ Г§Гі Г¤Г Г­Г­Г»Гµ
 	con->setSchema("bos");
 
-	// Создаем объект класса Statement для выполнения запросов
+	// Г‘Г®Г§Г¤Г ГҐГ¬ Г®ГЎГєГҐГЄГІ ГЄГ«Г Г±Г±Г  Statement Г¤Г«Гї ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г§Г ГЇГ°Г®Г±Г®Гў
 	sql::Statement* stmt;
 	stmt = con->createStatement();
 
-	// Выполняем запрос на чтение данных
+	// Г‚Г»ГЇГ®Г«Г­ГїГҐГ¬ Г§Г ГЇГ°Г®Г± Г­Г  Г·ГІГҐГ­ГЁГҐ Г¤Г Г­Г­Г»Гµ
 	sql::ResultSet* res;
 	res = stmt->executeQuery("SELECT * FROM account WHERE UserName='" + ClientLogin + "';");
 	
-	// Обрабатываем результаты запроса
+	// ГЋГЎГ°Г ГЎГ ГІГ»ГўГ ГҐГ¬ Г°ГҐГ§ГіГ«ГјГІГ ГІГ» Г§Г ГЇГ°Г®Г±Г 
 	while (res->next()) {
 		if (res)
 		{
@@ -57,7 +57,7 @@ string SQL(char login[256],string query) {
 		return chek;
 	}
 	return " ";
-	// Освобождаем ресурсы
+	// ГЋГ±ГўГ®ГЎГ®Г¦Г¤Г ГҐГ¬ Г°ГҐГ±ГіГ°Г±Г»
 	delete res;
 	delete stmt;
 	delete con;
