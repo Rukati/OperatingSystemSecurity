@@ -4,10 +4,10 @@
 #include <clocale>
 #include <vector>
 
-#include <E:\Library\rapidjson-master\\include\rapidjson\document.h>
-#include <E:\Library\rapidjson-master\\include\rapidjson\writer.h>
-#include <E:\Library\rapidjson-master\\include\rapidjson\stringbuffer.h>
-#include <E:\Library\art.cpp>
+#include <rapidjson\document.h>
+#include <rapidjson\writer.h>
+#include <rapidjson\stringbuffer.h>
+
 
 using namespace rapidjson;
 using namespace std;
@@ -19,7 +19,7 @@ private:
 public:
     Database(const string sub) {
         subj = sub;
-        // Инициализация пустого JSON-объекта
+        // Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї ГЇГіГ±ГІГ®ГЈГ® JSON-Г®ГЎГєГҐГЄГІГ 
         db.SetObject();
 
         ifstream file("database.json");
@@ -28,10 +28,10 @@ public:
             file.close();
 
             if (!db.Parse(jsonString.c_str()).HasParseError()) {
-                //cout << "\033[1;32mФайл успешно загружен.\033[0m" << endl;
+                //cout << "\033[1;32mГ”Г Г©Г« ГіГ±ГЇГҐГёГ­Г® Г§Г ГЈГ°ГіГ¦ГҐГ­.\033[0m" << endl;
             }
             else {
-                cout << "\033[1;31mОшибка при разборе файла JSON.\033[0m" << endl;
+                cout << "\033[1;31mГЋГёГЁГЎГЄГ  ГЇГ°ГЁ Г°Г Г§ГЎГ®Г°ГҐ ГґГ Г©Г«Г  JSON.\033[0m" << endl;
             }
         }
     }
@@ -45,10 +45,10 @@ public:
         if (file.is_open()) {
             file << buffer.GetString();
             file.close();
-            //cout << "\033[1;32mДанные успешно сохранены в файл.\033[0m" << endl;
+            //cout << "\033[1;32mГ„Г Г­Г­Г»ГҐ ГіГ±ГЇГҐГёГ­Г® Г±Г®ГµГ°Г Г­ГҐГ­Г» Гў ГґГ Г©Г«.\033[0m" << endl;
         }
         else {
-            cout << "\033[1;31mОшибка при сохранении данных в файл.\033[0m" << endl;
+            cout << "\033[1;31mГЋГёГЁГЎГЄГ  ГЇГ°ГЁ Г±Г®ГµГ°Г Г­ГҐГ­ГЁГЁ Г¤Г Г­Г­Г»Гµ Гў ГґГ Г©Г«.\033[0m" << endl;
         }
     }
 
@@ -57,32 +57,32 @@ public:
         Writer<StringBuffer> writer(buffer);
         db.Accept(writer);
 
-        cout << "\033[0;34mСодержимое базы данных:\033[0m\n";
+        cout << "\033[0;34mГ‘Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГҐ ГЎГ Г§Г» Г¤Г Г­Г­Г»Гµ:\033[0m\n";
         cout << buffer.GetString() << endl;
     }
 
-    void СreateSubject() {
+    void Г‘reateSubject() {
         if (db["subjects"].HasMember(subj.c_str())) {
-            cout << "\033[1;31m>>> Субъект уже существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ ГіГ¦ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
         Value subjects(kObjectType);
         db["subjects"].AddMember(Value(subj.c_str(), db.GetAllocator()).Move(), subjects, db.GetAllocator());
         Value access_matrix(kObjectType);
         db["access_matrix"].AddMember(Value(subj.c_str(), db.GetAllocator()).Move(), access_matrix, db.GetAllocator());
-        cout << "\033[1;32m>>> Субъект создан.\033[0m" << endl;
+        cout << "\033[1;32m>>> Г‘ГіГЎГєГҐГЄГІ Г±Г®Г§Г¤Г Г­.\033[0m" << endl;
 
         SaveToFile();
     }
 
     void CreateObject(string obj) {
         if (!db["subjects"].HasMember(subj.c_str())) {
-            cout << "\033[1;31m>>> Субъект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
 
         if (db["objects"].HasMember(obj.c_str())) {
-            cout << "\033[1;31m>>> Объект уже существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЋГЎГєГҐГЄГІ ГіГ¦ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
 
@@ -96,7 +96,7 @@ public:
             Value& access_matrix = it->value;
             access_matrix.AddMember(Value(obj.c_str(), db.GetAllocator()).Move(), Value(kArrayType).Move(), db.GetAllocator());
         }
-        cout << "\033[1;32m>>> Объект создан.\033[0m" << endl;
+        cout << "\033[1;32m>>> ГЋГЎГєГҐГЄГІ Г±Г®Г§Г¤Г Г­.\033[0m" << endl;
 
         AddRight(subj,obj, "r");
         AddRight(subj,obj, "w");
@@ -108,7 +108,7 @@ public:
 
     void DeleteObject(string obj) {
         if (!db["objects"].HasMember(obj.c_str())) {
-            cout << "\033[1;31m>>> Объект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЋГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
 
@@ -137,12 +137,12 @@ public:
         }
 
         if (!hasORight) {
-            cout << "\033[1;31m>>> Субъект не имеет указанного права на объект.\033[0m" << endl;
+            cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ ГЁГ¬ГҐГҐГІ ГіГЄГ Г§Г Г­Г­Г®ГЈГ® ГЇГ°Г ГўГ  Г­Г  Г®ГЎГєГҐГЄГІ.\033[0m" << endl;
             return;
         }
 
         if (db["objects"].HasMember(obj.c_str())) {
-            // Удаление объекта из субъектов
+            // Г“Г¤Г Г«ГҐГ­ГЁГҐ Г®ГЎГєГҐГЄГІГ  ГЁГ§ Г±ГіГЎГєГҐГЄГІГ®Гў
             for (Value::MemberIterator it = db["subjects"].MemberBegin(); it != db["subjects"].MemberEnd(); ++it) {
                 Value& subject = it->name;
                 Value& objects = it->value;
@@ -151,7 +151,7 @@ public:
                 }
             }
 
-            // Удаление объекта из матрицы доступа
+            // Г“Г¤Г Г«ГҐГ­ГЁГҐ Г®ГЎГєГҐГЄГІГ  ГЁГ§ Г¬Г ГІГ°ГЁГ¶Г» Г¤Г®Г±ГІГіГЇГ 
             for (Value::MemberIterator it = db["access_matrix"].MemberBegin(); it != db["access_matrix"].MemberEnd(); ++it) {
                 Value& subject = it->name;
                 Value& access_matrix = it->value;
@@ -160,13 +160,13 @@ public:
                 }
             }
 
-            // Удаление объекта
+            // Г“Г¤Г Г«ГҐГ­ГЁГҐ Г®ГЎГєГҐГЄГІГ 
             db["objects"].RemoveMember(obj.c_str());
 
-            cout << "\033[1;32m>>> Объект успешно удален.\033[0m" << endl;
+            cout << "\033[1;32m>>> ГЋГЎГєГҐГЄГІ ГіГ±ГЇГҐГёГ­Г® ГіГ¤Г Г«ГҐГ­.\033[0m" << endl;
         }
         else {
-            cout << "\033[1;31m>>> Объект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЋГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
         }
 
         SaveToFile();
@@ -174,36 +174,36 @@ public:
 
     void DeleteSubject(string subj2) {
         if (!db["subjects"].HasMember(subj2.c_str())) {
-            cout << "\033[1;31m>>> Субъект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
 
-        // Удаление субъекта из матрицы доступа
+        // Г“Г¤Г Г«ГҐГ­ГЁГҐ Г±ГіГЎГєГҐГЄГІГ  ГЁГ§ Г¬Г ГІГ°ГЁГ¶Г» Г¤Г®Г±ГІГіГЇГ 
         if (db["access_matrix"].HasMember(subj2.c_str())) {
             db["access_matrix"].RemoveMember(subj2.c_str());
         }
 
-        // Удаление субъекта из списка субъектов
+        // Г“Г¤Г Г«ГҐГ­ГЁГҐ Г±ГіГЎГєГҐГЄГІГ  ГЁГ§ Г±ГЇГЁГ±ГЄГ  Г±ГіГЎГєГҐГЄГІГ®Гў
         db["subjects"].RemoveMember(subj2.c_str());
 
-        cout << "\033[1;32m>>> Субъект удален.\033[0m" << endl;
+        cout << "\033[1;32m>>> Г‘ГіГЎГєГҐГЄГІ ГіГ¤Г Г«ГҐГ­.\033[0m" << endl;
 
         SaveToFile();
     }
 
     void AddRight(string subj2, string obj, string right) {
         if (!db["subjects"].HasMember(subj2.c_str())) {
-            cout << "\033[1;31m>>> Субъект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
 
         if (!db["objects"].HasMember(obj.c_str())) {
-            cout << "\033[1;31m>>> Объект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЋГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
 
         if (right != "r" && right != "w" && right != "x" && right != "o") {
-            cout << "\033[1;31m>>> Недействительное право.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЌГҐГ¤ГҐГ©Г±ГІГўГЁГІГҐГ«ГјГ­Г®ГҐ ГЇГ°Г ГўГ®.\033[0m" << endl;
             return;
         }
 
@@ -220,28 +220,28 @@ public:
         Value& rights = db["access_matrix"][subj2.c_str()][obj.c_str()];
         for (Value::ValueIterator it = rights.Begin(); it != rights.End(); ++it) {
             if (it->GetString() == right) {
-                cout << "\033[1;31m>>> Право уже существует.\033[0m" << endl;
+                cout << "\033[1;31m>>> ГЏГ°Г ГўГ® ГіГ¦ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
                 return;
             }
         }
 
         rights.PushBack(Value(right.c_str(), db.GetAllocator()).Move(), db.GetAllocator());
-        cout << "\033[1;32m>>> Право " << right << " добавлено.\033[0m" << endl;
+        cout << "\033[1;32m>>> ГЏГ°Г ГўГ® " << right << " Г¤Г®ГЎГ ГўГ«ГҐГ­Г®.\033[0m" << endl;
 
         SaveToFile();
     }
 
     void DeleteRight(string subj2,string obj, string right) {
         if (!db["subjects"].HasMember(subj2.c_str())) {
-            cout << "\033[1;31m>>> Субъект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
         if (!db["objects"].HasMember(obj.c_str())) {
-            cout << "\033[1;31m>>> Объект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЋГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return;
         }
         if (right != "r" && right != "w" && right != "x") {
-            cout << "\033[1;31m>>> Недействительное право.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЌГҐГ¤ГҐГ©Г±ГІГўГЁГІГҐГ«ГјГ­Г®ГҐ ГЇГ°Г ГўГ®.\033[0m" << endl;
             return;
         }
 
@@ -250,12 +250,12 @@ public:
             for (Value::ValueIterator it = rights.Begin(); it != rights.End(); ++it) {
                 if (it->GetString() == right) {
                     rights.Erase(it);
-                    cout << "\033[1;32m>>> Право удалено.\033[0m" << endl;
+                    cout << "\033[1;32m>>> ГЏГ°Г ГўГ® ГіГ¤Г Г«ГҐГ­Г®.\033[0m" << endl;
                     return;
                 }
             }
         }
-        cout << "\033[1;31m>>> Субъект не имеет указанного права на объект.\033[0m" << endl;
+        cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ ГЁГ¬ГҐГҐГІ ГіГЄГ Г§Г Г­Г­Г®ГЈГ® ГЇГ°Г ГўГ  Г­Г  Г®ГЎГєГҐГЄГІ.\033[0m" << endl;
 
         SaveToFile();
     }
@@ -263,7 +263,7 @@ public:
     bool ChekSubj()
     {
         if (!db["subjects"].HasMember(subj.c_str())) {
-            cout << "\033[1;31m>>> Субъект не существует.\033[0m" << endl;
+            cout << "\033[1;31m>>> Г‘ГіГЎГєГҐГЄГІ Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\033[0m" << endl;
             return false;
         }
         else
@@ -288,20 +288,20 @@ private:
 
     void CreateFile(string& subj, string& obj) {
         database.CreateObject(obj);
-        //cout << "\033[1;32mВыполнена команда cmd_create_file: subj=" << subj << ", obj=" << obj << "\033[0m" << endl;
+        //cout << "\033[1;32mГ‚Г»ГЇГ®Г«Г­ГҐГ­Г  ГЄГ®Г¬Г Г­Г¤Г  cmd_create_file: subj=" << subj << ", obj=" << obj << "\033[0m" << endl;
     }
 
     void DeleteFile(string& subj, string& obj) {
         database.DeleteObject(obj);
 
-        //cout << "\033[1;32mВыполнена команда cmd_delete_file: subj=" << subj << ", obj=" << obj << "\033[0m" << endl;
+        //cout << "\033[1;32mГ‚Г»ГЇГ®Г«Г­ГҐГ­Г  ГЄГ®Г¬Г Г­Г¤Г  cmd_delete_file: subj=" << subj << ", obj=" << obj << "\033[0m" << endl;
     }
 
     void GrantRight(const string& subj1, const string& subj2, const string& obj, const string& right) {
         if (database.ChekSubj())
             if (database.ChekRight(obj,right))
                 database.AddRight(subj2,obj, right);
-                //cout << "\033[1;32mВыполнена команда cmd_grant_right: subj1=" << subj1 << ", subj2=" << subj2 << ", obj=" << obj << ", right=" << right << "\033[0m" << endl;
+                //cout << "\033[1;32mГ‚Г»ГЇГ®Г«Г­ГҐГ­Г  ГЄГ®Г¬Г Г­Г¤Г  cmd_grant_right: subj1=" << subj1 << ", subj2=" << subj2 << ", obj=" << obj << ", right=" << right << "\033[0m" << endl;
     }
 
     string subj;
@@ -319,7 +319,7 @@ public:
         }
 
         if (cmd_parts.empty()) {
-            cout << "\033[1;31m>>> Некорректная команда.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .\033[0m" << endl;
             return;
         }
 
@@ -327,7 +327,7 @@ public:
 
         if (cmd == "cmd_create_file") {
             if (cmd_parts.size() < 2) {
-                cout << "\033[1;31m>>> Некорректная команда.\033[0m" << endl;
+                cout << "\033[1;31m>>> ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .\033[0m" << endl;
                 return;
             }
             string obj = cmd_parts[1];
@@ -335,7 +335,7 @@ public:
         }
         else if (cmd == "cmd_delete_file") {
             if (cmd_parts.size() < 2) {
-                cout << "\033[1;31m>>> Некорректная команда.\033[0m" << endl;
+                cout << "\033[1;31m>>> ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .\033[0m" << endl;
                 return;
             }
             string obj = cmd_parts[1];
@@ -344,7 +344,7 @@ public:
         else if (cmd == "cmd_delete_subj")
         {
             if (cmd_parts.size() < 2) {
-                cout << "\033[1;31m>>> Некорректная команда.\033[0m" << endl;
+                cout << "\033[1;31m>>> ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .\033[0m" << endl;
                 return;
             }
 
@@ -354,13 +354,13 @@ public:
                 database.DeleteSubject(subj);
             }
             else {
-                cout << "\033[1;31m>>> Некорректная команда.\033[0m" << endl;
+                cout << "\033[1;31m>>> ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .\033[0m" << endl;
                 return;
             }
         }
         else if (cmd == "cmd_grant_right") {
             if (cmd_parts.size() < 4) {
-                cout << "\033[1;31m>>> Некорректная команда.\033[0m" << endl;
+                cout << "\033[1;31m>>> ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .\033[0m" << endl;
                 return;
             }
             string subj2 = cmd_parts[1];
@@ -369,7 +369,7 @@ public:
             GrantRight(subj,subj2, obj, right);
         }
         else {
-            cout << "\033[1;31m>>> Некорректная команда.\033[0m" << endl;
+            cout << "\033[1;31m>>> ГЌГҐГЄГ®Г°Г°ГҐГЄГІГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г .\033[0m" << endl;
         }
     }
 };
@@ -378,12 +378,12 @@ int main() {
     setlocale(LC_ALL, "ru");
     while (true) {
 
-        cout << "Введите ваше имя: \033[38;5;207m";
+        cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГўГ ГёГҐ ГЁГ¬Гї: \033[38;5;207m";
         string name;
         getline(cin, name);
         cout << "\033[0m";
 
-        // Удаление пробелов до и после имени
+        // Г“Г¤Г Г«ГҐГ­ГЁГҐ ГЇГ°Г®ГЎГҐГ«Г®Гў Г¤Г® ГЁ ГЇГ®Г±Г«ГҐ ГЁГ¬ГҐГ­ГЁ
         name.erase(name.begin(), find_if(name.begin(), name.end(), [](unsigned char ch) {
             return !isspace(ch);
             }));
@@ -397,7 +397,6 @@ int main() {
         system("cls");
 
         if (name.size() > 0) {
-            ascii_art(name);
             cout << endl;
 
             while (true)
@@ -406,11 +405,11 @@ int main() {
                 Command cmd(name);
 
                 if (!database.ChekSubj())
-                    database.СreateSubject();
+                    database.Г‘reateSubject();
 
                 string command_str;
 
-                cout << "Введите команду: \033[38;5;207m";
+                cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г¬Г Г­Г¤Гі: \033[38;5;207m";
                 getline(cin, command_str);
                 cout << "\033[0m";
 
@@ -432,7 +431,7 @@ int main() {
                 }
                 else if (command_str == "list")
                 {
-                    cout << "\033[0;34mСписок команд: \033[0m\n";
+                    cout << "\033[0;34mГ‘ГЇГЁГ±Г®ГЄ ГЄГ®Г¬Г Г­Г¤: \033[0m\n";
                     cout << "\tcmd_create_file obj\n";
                     cout << "\tcmd_delete_file obj\n";
                     cout << "\tcmd_grant_right subj obj right\n";
