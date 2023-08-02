@@ -1,0 +1,19 @@
+{
+  "subjects": {
+    "sub1": [
+      {
+        "sub2": [ "a" ],
+        "file5": ["g"]
+      }
+    ],
+    "sub2": [ { "file3": [ "a" ] } ]
+  },
+  "objects": {
+    "file1": [ { "file2": [ "t" ] } ],
+    "file2": [ { "file3": [ "a" ] } ],
+    "file3": [
+      { "file4": [ "t" ] }
+    ],
+    "file5": [ { "file1": [ "a" ] } ]
+  }
+}

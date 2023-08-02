@@ -1,0 +1,20 @@
+{
+  "matrix": {
+    "subj1": {
+      "obj1": [],
+      "obj2": [],
+      "obj3": []
+    }
+  },
+  "subjects": {
+    "subj1": {
+      "current_mandate": 2,
+      "mandate": 2
+    }
+  },
+  "objects": {
+    "obj1": { "mandate": 2 },
+    "obj2": { "mandate": 3 },
+    "obj3": { "mandate": 1 }
+  }
+}

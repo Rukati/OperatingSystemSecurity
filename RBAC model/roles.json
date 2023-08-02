@@ -1,0 +1,27 @@
+{
+  "roles": {
+    "owner": {
+      "subjects": [ "subj1", "subj2" ],
+      "objects": {
+        "file1": [ "read", "write", "delete" ],
+        "file2": [ "read", "write", "delete" ]
+      }
+    },
+    "manager": {
+      "subjects": [ "subj1" ],
+      "objects": { "file1": [ "read" ] }
+    },
+    "editor": {
+      "subjects": [ "subj3" ],
+      "objects": {
+        "file2": [ "read", "write" ],
+        "file3": [ "write" ]
+      }
+    }
+  },
+  "permissions": {
+    "write": {},
+    "read": {},
+    "delete": {}
+  }
+}
