@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <cmath>
-#include <E:\Library\art.cpp>
+
 #include "sha256.h"
 #include <boost/random.hpp>
 #include <random>
@@ -48,7 +48,7 @@ private:
 		std::uniform_int_distribution<unsigned long long> dist(2, n - 2);
 
 		for (int i = 0; i < k; i++) {
-			unsigned long long a = dist(gen) % (n - 3) + 2; // Ñëó÷àéíîå ÷èñëî â äèàïàçîíå [2, n-2]
+			unsigned long long a = dist(gen) % (n - 3) + 2; // Ã‘Ã«Ã³Ã·Ã Ã©Ã­Ã®Ã¥ Ã·Ã¨Ã±Ã«Ã® Ã¢ Ã¤Ã¨Ã Ã¯Ã Ã§Ã®Ã­Ã¥ [2, n-2]
 
 			unsigned long long x = pow_mod(a, d, n);
 			if (x == 1 || x == n - 1) {
@@ -108,16 +108,16 @@ public:
 
 	string ReadMsg()
 	{
-		// Ïîëó÷àåì ñòðîêó îò ñåðâåðà
+		// ÃÃ®Ã«Ã³Ã·Ã Ã¥Ã¬ Ã±Ã²Ã°Ã®ÃªÃ³ Ã®Ã² Ã±Ã¥Ã°Ã¢Ã¥Ã°Ã 
 		char* buffer = NULL;
 		int numBytesReceived = 0;
 		int bufferSize = 1024;
 
 		do {
-			buffer = (char*)realloc(buffer, bufferSize); // Âûäåëÿåì äèíàìè÷åñêóþ ïàìÿòü äëÿ áóôåðà
+			buffer = (char*)realloc(buffer, bufferSize); // Ã‚Ã»Ã¤Ã¥Ã«Ã¿Ã¥Ã¬ Ã¤Ã¨Ã­Ã Ã¬Ã¨Ã·Ã¥Ã±ÃªÃ³Ã¾ Ã¯Ã Ã¬Ã¿Ã²Ã¼ Ã¤Ã«Ã¿ Ã¡Ã³Ã´Ã¥Ã°Ã 
 			numBytesReceived += recv(Conn, buffer + numBytesReceived, bufferSize - numBytesReceived, 0);
 			if (numBytesReceived == bufferSize) {
-				bufferSize *= 2; // Óâåëè÷èâàåì ðàçìåð áóôåðà â äâà ðàçà, åñëè ïðèíÿòûå äàííûå çàïîëíèëè âåñü áóôåð
+				bufferSize *= 2; // Ã“Ã¢Ã¥Ã«Ã¨Ã·Ã¨Ã¢Ã Ã¥Ã¬ Ã°Ã Ã§Ã¬Ã¥Ã° Ã¡Ã³Ã´Ã¥Ã°Ã  Ã¢ Ã¤Ã¢Ã  Ã°Ã Ã§Ã , Ã¥Ã±Ã«Ã¨ Ã¯Ã°Ã¨Ã­Ã¿Ã²Ã»Ã¥ Ã¤Ã Ã­Ã­Ã»Ã¥ Ã§Ã Ã¯Ã®Ã«Ã­Ã¨Ã«Ã¨ Ã¢Ã¥Ã±Ã¼ Ã¡Ã³Ã´Ã¥Ã°
 			}
 		} while (numBytesReceived == bufferSize);
 
@@ -203,14 +203,14 @@ void Server()
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "ru");
-	WSAData wsaData; //ñòðóêòóðà wsaData
-	WORD DLLVersion = MAKEWORD(2, 1);//âåðñèÿ áèáëèîòåêè
-	if (WSAStartup(DLLVersion, &wsaData) != 0) // çàãðóçêà áèáëèîòåêè
+	WSAData wsaData; //Ã±Ã²Ã°Ã³ÃªÃ²Ã³Ã°Ã  wsaData
+	WORD DLLVersion = MAKEWORD(2, 1);//Ã¢Ã¥Ã°Ã±Ã¨Ã¿ Ã¡Ã¨Ã¡Ã«Ã¨Ã®Ã²Ã¥ÃªÃ¨
+	if (WSAStartup(DLLVersion, &wsaData) != 0) // Ã§Ã Ã£Ã°Ã³Ã§ÃªÃ  Ã¡Ã¨Ã¡Ã«Ã¨Ã®Ã²Ã¥ÃªÃ¨
 	{
 		cout << "Error WSAData" << endl;
 		exit(1);
 	}
-	SOCKADDR_IN addr; // ñòðóêòóðà ïðåäíîçíà÷åíàÿ äëÿ õðàíåíèÿ àäðåñà
+	SOCKADDR_IN addr; // Ã±Ã²Ã°Ã³ÃªÃ²Ã³Ã°Ã  Ã¯Ã°Ã¥Ã¤Ã­Ã®Ã§Ã­Ã Ã·Ã¥Ã­Ã Ã¿ Ã¤Ã«Ã¿ ÃµÃ°Ã Ã­Ã¥Ã­Ã¨Ã¿ Ã Ã¤Ã°Ã¥Ã±Ã 
 	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 	addr.sin_port = htons(1024);
 	addr.sin_family = AF_INET;
@@ -223,7 +223,6 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	//ascii_art("WELCOM!");
 	//CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)Server, NULL, NULL, NULL);
 	Server();
 	
