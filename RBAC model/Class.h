@@ -6,10 +6,10 @@
 #include <vector>
 #include <unordered_map>
 
-#include <E:\Library\rapidjson-master\include\rapidjson/document.h>
-#include <E:\Library\rapidjson-master\include\rapidjson/writer.h>
-#include <E:\Library\rapidjson-master\include\rapidjson/stringbuffer.h>
-#include <E:\Library\rapidjson-master\include\rapidjson/ostreamwrapper.h> 
+#include <rapidjson/document.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/stringbuffer.h>
+#include <rapidjson/ostreamwrapper.h> 
 
 using namespace rapidjson;
 
@@ -27,27 +27,27 @@ private:
     }
 
 public:
-    //инициализация класса
+    //ГЁГ­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї ГЄГ«Г Г±Г±Г 
     Access() {
-        // Открываем JSON-файл для чтения
+        // ГЋГІГЄГ°Г»ГўГ ГҐГ¬ JSON-ГґГ Г©Г« Г¤Г«Гї Г·ГІГҐГ­ГЁГї
         std::ifstream file("roles.json");
         if (!file.is_open()) {
-            std::cerr << "Ошибка открытия файла!" << std::endl;
+            std::cerr << "ГЋГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГґГ Г©Г«Г !" << std::endl;
             return;
         }
 
-        // Читаем содержимое файла в строку
+        // Г—ГЁГІГ ГҐГ¬ Г±Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГҐ ГґГ Г©Г«Г  Гў Г±ГІГ°Г®ГЄГі
         std::stringstream buffer;
         buffer << file.rdbuf();
         std::string jsonString = buffer.str();
 
-        // Парсим JSON-строку в объект Document
+        // ГЏГ Г°Г±ГЁГ¬ JSON-Г±ГІГ°Г®ГЄГі Гў Г®ГЎГєГҐГЄГІ Document
         if (doc.Parse(jsonString.c_str()).HasParseError()) {
-            std::cerr << "Ошибка парсинга JSON!" << std::endl;
+            std::cerr << "ГЋГёГЁГЎГЄГ  ГЇГ Г°Г±ГЁГ­ГЈГ  JSON!" << std::endl;
             return;
         }
 
-        // Инициализируем роли
+        // Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§ГЁГ°ГіГҐГ¬ Г°Г®Г«ГЁ
         if (doc.HasMember("roles") && doc["roles"].IsObject()) {
             const Value& rolesValue = doc["roles"];
             for (Value::ConstMemberIterator roleIt = rolesValue.MemberBegin(); roleIt != rolesValue.MemberEnd(); ++roleIt) {
@@ -84,7 +84,7 @@ public:
                 }
             }
         }
-        // Инициализация прав
+        // Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї ГЇГ°Г Гў
         if (doc.HasMember("permissions") && doc["permissions"].IsObject()) {
             const Value& permissionsValue = doc["permissions"];
             for (Value::ConstMemberIterator permIt = permissionsValue.MemberBegin(); permIt != permissionsValue.MemberEnd(); ++permIt) {
@@ -128,11 +128,11 @@ public:
 
     void createNewRole() {
         std::string roleName;
-        std::cout << "Введите имя роли: ";
+        std::cout << "Г‚ГўГҐГ¤ГЁГІГҐ ГЁГ¬Гї Г°Г®Г«ГЁ: ";
         std::getline(std::cin, roleName);
 
         if (roles.find(roleName) != roles.end()) {
-            std::cout << BRIGHT_RED_COLOR << "Такая роль уже существует." << RESET_COLOR << std::endl;
+            std::cout << BRIGHT_RED_COLOR << "Г’Г ГЄГ Гї Г°Г®Г«Гј ГіГ¦ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ." << RESET_COLOR << std::endl;
             return;
         }
 
@@ -144,24 +144,24 @@ public:
         int i = 1;
         do
         {
-            std::cout << "Родитель" << i <<": ";
+            std::cout << "ГђГ®Г¤ГЁГІГҐГ«Гј" << i <<": ";
             std::getline(std::cin, parent);
 
-            // Проверка на существование роли
+            // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  Г±ГіГ№ГҐГ±ГІГўГ®ГўГ Г­ГЁГҐ Г°Г®Г«ГЁ
             if (roles.count(parent) > 0) {
                 parentRoles.push_back(parent);
                 i++;
                 break;
             }
             else {
-                std::cout << BRIGHT_RED_COLOR << "Роль не существует!" << RESET_COLOR << std::endl;
+                std::cout << BRIGHT_RED_COLOR << "ГђГ®Г«Гј Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ!" << RESET_COLOR << std::endl;
             }
 
         } while (true);
 
         while (!parent.empty()) {
 
-            std::cout << "Родитель" << i << ": ";
+            std::cout << "ГђГ®Г¤ГЁГІГҐГ«Гј" << i << ": ";
             std::getline(std::cin, parent);
 
             if (roles.count(parent) > 0) {
@@ -170,7 +170,7 @@ public:
             }
             else {
                 if (!parent.empty())
-                    std::cout << BRIGHT_RED_COLOR << "Роль не существует!" << RESET_COLOR << std::endl;
+                    std::cout << BRIGHT_RED_COLOR << "ГђГ®Г«Гј Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ!" << RESET_COLOR << std::endl;
             }
         }
 
@@ -192,11 +192,11 @@ public:
         }
 
         if (possibleSubjects.empty()) {
-            std::cout << BRIGHT_RED_COLOR << "Нет смежных субъектов." << RESET_COLOR << std::endl;
+            std::cout << BRIGHT_RED_COLOR << "ГЌГҐГІ Г±Г¬ГҐГ¦Г­Г»Гµ Г±ГіГЎГєГҐГЄГІГ®Гў." << RESET_COLOR << std::endl;
             return;
         }
         else {
-            std::cout << "Пересечение значений у ролей: ";
+            std::cout << "ГЏГҐГ°ГҐГ±ГҐГ·ГҐГ­ГЁГҐ Г§Г­Г Г·ГҐГ­ГЁГ© Гі Г°Г®Г«ГҐГ©: ";
             for (const auto& subject : possibleSubjects) {
                 std::cout << subject << " ";
             }
@@ -217,7 +217,7 @@ public:
                 std::getline(std::cin, subject);
             }
             else {
-                std::cout << BRIGHT_RED_COLOR << "Введен неверный субъект: " << subject << RESET_COLOR << std::endl;
+                std::cout << BRIGHT_RED_COLOR << "Г‚ГўГҐГ¤ГҐГ­ Г­ГҐГўГҐГ°Г­Г»Г© Г±ГіГЎГєГҐГЄГІ: " << subject << RESET_COLOR << std::endl;
                 return;
             }
         }
@@ -289,7 +289,7 @@ public:
                             if (possible_right.count(permission) > 0)
                                 break;
                             else
-                                std::cout << "Такое право не доступно" << std::endl;
+                                std::cout << "Г’Г ГЄГ®ГҐ ГЇГ°Г ГўГ® Г­ГҐ Г¤Г®Г±ГІГіГЇГ­Г®" << std::endl;
                     } while (true && !permission.empty());
 
                     while (!permission.empty() && availableRights.size() > 0) {
@@ -299,15 +299,15 @@ public:
                             if (!possible_right[permission]) {
                                 permissions.push_back(permission);
                                 possible_right[permission] = true;
-                                std::cout << BRIGHT_GREEN_COLOR << "Добавил" << std::endl;
+                                std::cout << BRIGHT_GREEN_COLOR << "Г„Г®ГЎГ ГўГЁГ«" << std::endl;
                             }
                             else
-                                std::cout << BRIGHT_RED_COLOR << "Право уже добавлено" << RESET_COLOR << std::endl;
+                                std::cout << BRIGHT_RED_COLOR << "ГЏГ°Г ГўГ® ГіГ¦ГҐ Г¤Г®ГЎГ ГўГ«ГҐГ­Г®" << RESET_COLOR << std::endl;
 
                         }
                         else
                             if(!permission.empty())
-                                std::cout << "Такое право не доступно" << std::endl;
+                                std::cout << "Г’Г ГЄГ®ГҐ ГЇГ°Г ГўГ® Г­ГҐ Г¤Г®Г±ГІГіГЇГ­Г®" << std::endl;
                         
                         std::cout << MAGENTA_COLOR << "Permission: " << RESET_COLOR;
                         std::getline(std::cin, permission);
@@ -322,33 +322,33 @@ public:
             }
             else
             {
-                std::cout << BRIGHT_RED_COLOR << "Такого object не существует.\n" << RESET_COLOR;
+                std::cout << BRIGHT_RED_COLOR << "Г’Г ГЄГ®ГЈГ® object Г­ГҐ Г±ГіГ№ГҐГ±ГІГўГіГҐГІ.\n" << RESET_COLOR;
             }
             std::cout << "object: ";
             std::getline(std::cin, object);
         }
 
 
-        std::cout << "Роль создана." << std::endl;
+        std::cout << "ГђГ®Г«Гј Г±Г®Г§Г¤Г Г­Г ." << std::endl;
         SaveData();
     }
 
     void SaveData() const {
-        // Создаем объект Writer для записи JSON
+        // Г‘Г®Г§Г¤Г ГҐГ¬ Г®ГЎГєГҐГЄГІ Writer Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ JSON
         StringBuffer buffer;
         Writer<StringBuffer> writer(buffer);
 
-        // Заполняем данные ролями, субъектами и объектами
+        // Г‡Г ГЇГ®Г«Г­ГїГҐГ¬ Г¤Г Г­Г­Г»ГҐ Г°Г®Г«ГїГ¬ГЁ, Г±ГіГЎГєГҐГЄГІГ Г¬ГЁ ГЁ Г®ГЎГєГҐГЄГІГ Г¬ГЁ
         writer.StartObject();
 
-        // Записываем роли
+        // Г‡Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Г°Г®Г«ГЁ
         writer.Key("roles");
         writer.StartObject();
         for (const auto& role : roles) {
             writer.Key(role.first.c_str());
             writer.StartObject();
 
-            // Записываем субъекты роли
+            // Г‡Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Г±ГіГЎГєГҐГЄГІГ» Г°Г®Г«ГЁ
             writer.Key("subjects");
             writer.StartArray();
             const auto& subjects = role.second.at("subjects");
@@ -357,7 +357,7 @@ public:
             }
             writer.EndArray();
 
-            // Записываем объекты и разрешения для роли
+            // Г‡Г ГЇГЁГ±Г»ГўГ ГҐГ¬ Г®ГЎГєГҐГЄГІГ» ГЁ Г°Г Г§Г°ГҐГёГҐГ­ГЁГї Г¤Г«Гї Г°Г®Г«ГЁ
             writer.Key("objects");
             writer.StartObject();
             for (const auto& object : objects) {
@@ -377,7 +377,7 @@ public:
         }
         writer.EndObject();
 
-        // Записываем possible_right
+        // Г‡Г ГЇГЁГ±Г»ГўГ ГҐГ¬ possible_right
         writer.Key("permissions");
         writer.StartObject();
         for (const auto& permission : possible_right) {
@@ -389,20 +389,20 @@ public:
 
         writer.EndObject();
 
-        // Получаем строку JSON
+        // ГЏГ®Г«ГіГ·Г ГҐГ¬ Г±ГІГ°Г®ГЄГі JSON
         std::string jsonString = buffer.GetString();
 
-        // Открываем JSON-файл для записи
+        // ГЋГІГЄГ°Г»ГўГ ГҐГ¬ JSON-ГґГ Г©Г« Г¤Г«Гї Г§Г ГЇГЁГ±ГЁ
         std::ofstream file("roles.json");
         if (!file.is_open()) {
-            std::cerr << "Ошибка открытия файла!" << std::endl;
+            std::cerr << "ГЋГёГЁГЎГЄГ  Г®ГІГЄГ°Г»ГІГЁГї ГґГ Г©Г«Г !" << std::endl;
             return;
         }
 
-        // Записываем JSON-строку в файл
+        // Г‡Г ГЇГЁГ±Г»ГўГ ГҐГ¬ JSON-Г±ГІГ°Г®ГЄГі Гў ГґГ Г©Г«
         file << jsonString;
 
-        std::cout << "Данные сохранены в файл." << std::endl;
+        std::cout << "Г„Г Г­Г­Г»ГҐ Г±Г®ГµГ°Г Г­ГҐГ­Г» Гў ГґГ Г©Г«." << std::endl;
     }
 
 };
